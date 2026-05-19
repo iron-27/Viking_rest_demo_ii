@@ -12,37 +12,37 @@ import java.util.List;
 public class VikingService {
 
     private final VikingFactory vikingFactory;
-    private final VikingStorage storage;
+    private final VikingStorage vikingStorage;
 
-    public VikingService(VikingFactory vikingFactory, VikingStorage storage) {
+    public VikingService(VikingFactory vikingFactory, VikingStorage vikingStorage) {
         this.vikingFactory = vikingFactory;
-        this.storage = storage;
+        this.vikingStorage = vikingStorage;
     }
 
-    public List<Viking> loadAll() {
-        return storage.readAll();
+    public List<Viking> findAll() {
+        return vikingStorage.findAll();
     }
 
-    public Viking loadOne(int id) {
-        return storage.readOne(id)
+    public Viking findById(int id) {
+        return vikingStorage.findById(id)
                 .orElseThrow(() -> missingViking(id));
     }
 
-    public Viking createExact(Viking viking) {
-        return storage.append(viking);
+    public Viking createViking(Viking viking) {
+        return vikingStorage.save(viking);
     }
 
-    public Viking createRandom() {
-        return createExact(vikingFactory.createRandomViking());
+    public Viking createRandomViking() {
+        return createViking(vikingFactory.createRandomViking());
     }
 
-    public Viking overwrite(int id, Viking newState) {
-        return storage.rewrite(id, newState)
+    public Viking updateById(int id, Viking newState) {
+        return vikingStorage.updateById(id, newState)
                 .orElseThrow(() -> missingViking(id));
     }
 
-    public void erase(int id) {
-        if (!storage.erase(id)) {
+    public void deleteById(int id) {
+        if (!vikingStorage.deleteById(id)) {
             throw missingViking(id);
         }
     }

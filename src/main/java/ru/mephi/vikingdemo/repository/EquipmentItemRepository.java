@@ -12,7 +12,7 @@ public class EquipmentItemRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private final RowMapper<EquipmentItemEntity> equipmentMapper = (rs, rowNum) -> new EquipmentItemEntity(
+    private final RowMapper<EquipmentItemEntity> equipmentRowMapper = (rs, rowNum) -> new EquipmentItemEntity(
             rs.getInt("id"),
             rs.getInt("viking_id"),
             rs.getString("name"),
@@ -23,26 +23,26 @@ public class EquipmentItemRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<EquipmentItemEntity> selectByViking(int vikingId) {
+    public List<EquipmentItemEntity> findByVikingId(int vikingId) {
         String sql = """
                 select id, viking_id, name, quality
                 from equipment_items
                 where viking_id = ?
                 order by id
                 """;
-        return jdbcTemplate.query(sql, equipmentMapper, vikingId);
+        return jdbcTemplate.query(sql, equipmentRowMapper, vikingId);
     }
 
-    public List<EquipmentItemEntity> selectAll() {
+    public List<EquipmentItemEntity> findAll() {
         String sql = """
                 select id, viking_id, name, quality
                 from equipment_items
                 order by viking_id, id
                 """;
-        return jdbcTemplate.query(sql, equipmentMapper);
+        return jdbcTemplate.query(sql, equipmentRowMapper);
     }
 
-    public void insert(EquipmentItemEntity item) {
+    public void save(EquipmentItemEntity item) {
         String sql = """
                 insert into equipment_items(viking_id, name, quality)
                 values (?, ?, ?)
@@ -50,7 +50,7 @@ public class EquipmentItemRepository {
         jdbcTemplate.update(sql, item.vikingId(), item.name(), item.quality());
     }
 
-    public int deleteForViking(int vikingId) {
+    public int deleteByVikingId(int vikingId) {
         String sql = "delete from equipment_items where viking_id = ?";
         return jdbcTemplate.update(sql, vikingId);
     }

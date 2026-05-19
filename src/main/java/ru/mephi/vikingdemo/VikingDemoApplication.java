@@ -13,16 +13,16 @@ import javax.swing.SwingUtilities;
 public class VikingDemoApplication {
 
     public static void main(String[] args) {
-        SpringApplication application = new SpringApplication(VikingDemoApplication.class);
-        application.setHeadless(false);
+        SpringApplication app = new SpringApplication(VikingDemoApplication.class);
+        app.setHeadless(false);
 
-        ConfigurableApplicationContext context = application.run(args);
-        VikingService service = context.getBean(VikingService.class);
+        ConfigurableApplicationContext context = app.run(args);
+        VikingService vikingService = context.getBean(VikingService.class);
         VikingListener vikingListener = context.getBean(VikingListener.class);
 
         SwingUtilities.invokeLater(() -> {
-            VikingDesktopFrame frame = new VikingDesktopFrame(service);
-            vikingListener.attach(frame);
+            VikingDesktopFrame frame = new VikingDesktopFrame(vikingService);
+            vikingListener.setGui(frame);
             frame.setVisible(true);
         });
     }

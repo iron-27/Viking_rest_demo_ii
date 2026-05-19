@@ -10,46 +10,46 @@ import java.util.stream.Collectors;
 
 public class VikingTableModel extends AbstractTableModel {
 
-    private static final String[] COLUMNS = {
+    private final String[] columns = {
             "Id", "Name", "Age", "Height (cm)", "Hair color", "Beard style", "Equipment"
     };
 
-    private final List<Viking> rows = new ArrayList<>();
+    private final List<Viking> data = new ArrayList<>();
 
-    public void put(Viking viking) {
-        int rowIndex = findRow(viking.id());
+    public void addViking(Viking viking) {
+        int rowIndex = findIndexById(viking.id());
         if (rowIndex >= 0) {
-            rows.set(rowIndex, viking);
+            data.set(rowIndex, viking);
             fireTableRowsUpdated(rowIndex, rowIndex);
             return;
         }
 
-        int insertedRow = rows.size();
-        rows.add(viking);
-        fireTableRowsInserted(insertedRow, insertedRow);
+        int row = data.size();
+        data.add(viking);
+        fireTableRowsInserted(row, row);
     }
 
     public void remove(int id) {
-        int rowIndex = findRow(id);
+        int rowIndex = findIndexById(id);
         if (rowIndex < 0) {
             return;
         }
-        rows.remove(rowIndex);
+        data.remove(rowIndex);
         fireTableRowsDeleted(rowIndex, rowIndex);
     }
 
     public void setRows(List<Viking> vikings) {
-        rows.clear();
-        rows.addAll(vikings);
+        data.clear();
+        data.addAll(vikings);
         fireTableDataChanged();
     }
 
-    private int findRow(Integer id) {
+    private int findIndexById(Integer id) {
         if (id == null) {
             return -1;
         }
-        for (int i = 0; i < rows.size(); i++) {
-            if (id.equals(rows.get(i).id())) {
+        for (int i = 0; i < data.size(); i++) {
+            if (id.equals(data.get(i).id())) {
                 return i;
             }
         }
@@ -58,22 +58,22 @@ public class VikingTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return rows.size();
+        return data.size();
     }
 
     @Override
     public int getColumnCount() {
-        return COLUMNS.length;
+        return columns.length;
     }
 
     @Override
     public String getColumnName(int column) {
-        return COLUMNS[column];
+        return columns[column];
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Viking viking = rows.get(rowIndex);
+        Viking viking = data.get(rowIndex);
         return switch (columnIndex) {
             case 0 -> viking.id();
             case 1 -> viking.name();

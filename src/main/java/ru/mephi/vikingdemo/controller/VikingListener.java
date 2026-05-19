@@ -9,33 +9,25 @@ import javax.swing.SwingUtilities;
 @Component
 public class VikingListener {
 
-    private VikingDesktopFrame frame;
+    private VikingDesktopFrame gui;
 
-    public void attach(VikingDesktopFrame frame) {
-        this.frame = frame;
+    public void setGui(VikingDesktopFrame gui) {
+        this.gui = gui;
     }
 
-    public void upsert(Viking viking) {
-        VikingDesktopFrame current = frame;
+    public void onVikingAdded(Viking viking) {
+        VikingDesktopFrame current = gui;
         if (current == null || viking == null) {
             return;
         }
-        SwingUtilities.invokeLater(() -> current.showViking(viking));
+        SwingUtilities.invokeLater(() -> current.addNewViking(viking));
     }
 
-    public void remove(int id) {
-        VikingDesktopFrame current = frame;
+    public void onVikingDeleted(int id) {
+        VikingDesktopFrame current = gui;
         if (current == null) {
             return;
         }
-        SwingUtilities.invokeLater(() -> current.hideViking(id));
-    }
-
-    public void refresh() {
-        VikingDesktopFrame current = frame;
-        if (current == null) {
-            return;
-        }
-        SwingUtilities.invokeLater(current::reloadTable);
+        SwingUtilities.invokeLater(() -> current.removeViking(id));
     }
 }

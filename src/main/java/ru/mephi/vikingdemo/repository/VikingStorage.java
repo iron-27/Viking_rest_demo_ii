@@ -15,59 +15,58 @@ import java.util.stream.Collectors;
 @Repository
 public class VikingStorage {
 
-    private final VikingRepository vikingRows;
-    private final EquipmentItemRepository equipmentRows;
-    private final VikingMapper mapper;
+    private final VikingRepository vikingRepository;
+    private final EquipmentItemRepository equipmentItemRepository;
+    private final VikingMapper vikingMapper;
 
     public VikingStorage(
-            VikingRepository vikingRows,
-            EquipmentItemRepository equipmentRows,
-            VikingMapper mapper
+            VikingRepository vikingRepository,
+            EquipmentItemRepository equipmentItemRepository,
+            VikingMapper vikingMapper
     ) {
-        this.vikingRows = vikingRows;
-        this.equipmentRows = equipmentRows;
-        this.mapper = mapper;
+        this.vikingRepository = vikingRepository;
+        this.equipmentItemRepository = equipmentItemRepository;
+        this.vikingMapper = vikingMapper;
     }
 
-    public List<Viking> readAll() {
-        Map<Integer, List<EquipmentItemEntity>> equipmentByViking = equipmentRows.selectAll()
+    public List<Viking> findAll() {
+        Map<Integer, List<EquipmentItemEntity>> equipmentByViking = equipmentItemRepository.findAll()
                 .stream()
                 .collect(Collectors.groupingBy(EquipmentItemEntity::vikingId));
 
-        return vikingRows.selectAll()
+        return vikingRepository.findAll()
                 .stream()
-                .map(row -> mapper.toViking(row, equipmentByViking.getOrDefault(row.id(), List.of())))
+                .map(entity -> vikingMapper.toViking(entity, equipmentByViking.getOrDefault(entity.id(), List.of())))
                 .toList();
     }
 
-    public Optional<Viking> readOne(int id) {
-        return vikingRows.selectOne(id)
-                .map(row -> mapper.toViking(row, equipmentRows.selectByViking(id)));
+    public Optional<Viking> findById(int id) {
+        return vikingRepository.findById(id)
+                .map(entity -> vikingMapper.toViking(entity, equipmentItemRepository.findByVikingId(id)));
     }
 
     @Transactional
-    public Viking append(Viking viking) {
-        Integer id = vikingRows.insert(mapper.toRow(viking));
+    public Viking save(Viking viking) {
+        Integer id = vikingRepository.save(vikingMapper.toVikingEntity(viking));
         saveEquipment(id, viking.equipment());
-        return readOne(id).orElseThrow();
+        return findById(id).orElseThrow();
     }
 
     @Transactional
-    public Optional<Viking> rewrite(int id, Viking newState) {
-        VikingEntity row = mapper.toRow(id, newState);
-        int changedRows = vikingRows.rewrite(row);
+    public Optional<Viking> updateById(int id, Viking newState) {
+        VikingEntity entity = vikingMapper.toVikingEntity(id, newState);
+        int changedRows = vikingRepository.updateById(entity);
         if (changedRows == 0) {
             return Optional.empty();
         }
-
-        equipmentRows.deleteForViking(id);
+        equipmentItemRepository.deleteByVikingId(id);
         saveEquipment(id, newState.equipment());
-        return readOne(id);
+        return findById(id);
     }
 
     @Transactional
-    public boolean erase(int id) {
-        return vikingRows.deleteOne(id) > 0;
+    public boolean deleteById(int id) {
+        return vikingRepository.deleteById(id) > 0;
     }
 
     private void saveEquipment(Integer vikingId, List<EquipmentItem> equipment) {
@@ -75,7 +74,7 @@ public class VikingStorage {
             return;
         }
         equipment.stream()
-                .map(item -> mapper.toEquipmentRow(vikingId, item))
-                .forEach(equipmentRows::insert);
+                .map(item -> vikingMapper.toEquipmentItemEntity(vikingId, item))
+                .forEach(equipmentItemRepository::save);
     }
 }

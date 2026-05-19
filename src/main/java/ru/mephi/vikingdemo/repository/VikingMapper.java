@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public class VikingMapper {
 
-    public VikingEntity toRow(Viking viking) {
+    public VikingEntity toVikingEntity(Viking viking) {
         return new VikingEntity(
                 viking.id(),
                 viking.name(),
@@ -23,7 +23,7 @@ public class VikingMapper {
         );
     }
 
-    public VikingEntity toRow(int id, Viking viking) {
+    public VikingEntity toVikingEntity(int id, Viking viking) {
         return new VikingEntity(
                 id,
                 viking.name(),
@@ -35,26 +35,26 @@ public class VikingMapper {
         );
     }
 
-    public EquipmentItemEntity toEquipmentRow(Integer vikingId, EquipmentItem item) {
+    public EquipmentItemEntity toEquipmentItemEntity(Integer vikingId, EquipmentItem item) {
         return new EquipmentItemEntity(null, vikingId, item.name(), item.quality());
     }
 
-    public EquipmentItem toEquipmentItem(EquipmentItemEntity row) {
-        return new EquipmentItem(row.name(), row.quality());
+    public EquipmentItem toEquipmentItem(EquipmentItemEntity entity) {
+        return new EquipmentItem(entity.name(), entity.quality());
     }
 
-    public Viking toViking(VikingEntity row, List<EquipmentItemEntity> equipmentRows) {
-        List<EquipmentItem> equipment = equipmentRows.stream()
+    public Viking toViking(VikingEntity entity, List<EquipmentItemEntity> equipmentEntities) {
+        List<EquipmentItem> equipment = equipmentEntities.stream()
                 .map(this::toEquipmentItem)
                 .toList();
 
         return new Viking(
-                row.id(),
-                row.name(),
-                row.age(),
-                row.heightCm(),
-                row.hairColor(),
-                row.beardStyle(),
+                entity.id(),
+                entity.name(),
+                entity.age(),
+                entity.heightCm(),
+                entity.hairColor(),
+                entity.beardStyle(),
                 equipment
         );
     }

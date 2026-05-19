@@ -21,80 +21,80 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/vikings")
-@Tag(name = "Viking board", description = "Методы для работы с таблицей викингов через REST и Swagger")
+@Tag(name = "Vikings", description = "Операции с викингами")
 public class VikingController {
 
-    private final VikingService rosterService;
+    private final VikingService vikingService;
     private final VikingListener vikingListener;
 
-    public VikingController(VikingService rosterService, VikingListener vikingListener) {
-        this.rosterService = rosterService;
+    public VikingController(VikingService vikingService, VikingListener vikingListener) {
+        this.vikingService = vikingService;
         this.vikingListener = vikingListener;
     }
 
     @GetMapping
-    @Operation(summary = "Показать всех викингов из таблицы", operationId = "listVikingsFromBoard")
+    @Operation(summary = "Показать всех викингов из таблицы", operationId = "getAllVikings")
     @ApiResponse(responseCode = "200", description = "Записи таблицы возвращены")
-    public List<Viking> listVikings() {
-        return rosterService.loadAll();
+    public List<Viking> getAllVikings() {
+        return vikingService.findAll();
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Открыть карточку викинга по id", operationId = "readVikingCard")
+    @Operation(summary = "Открыть карточку викинга по id", operationId = "getVikingById")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Карточка найдена"),
             @ApiResponse(responseCode = "404", description = "Записи с таким id нет")
     })
-    public Viking readViking(@PathVariable int id) {
-        return rosterService.loadOne(id);
+    public Viking getVikingById(@PathVariable int id) {
+        return vikingService.findById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Добавить конкретного викинга", operationId = "createExactViking")
+    @Operation(summary = "Добавить конкретного викинга", operationId = "createViking")
     @ApiResponse(responseCode = "201", description = "Викинг добавлен в таблицу")
-    public Viking createExactViking(@RequestBody Viking viking) {
-        Viking created = rosterService.createExact(viking);
-        vikingListener.upsert(created);
+    public Viking createViking(@RequestBody Viking viking) {
+        Viking created = vikingService.createViking(viking);
+        vikingListener.onVikingAdded(created);
         return created;
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Перезаписать параметры конкретного викинга", operationId = "overwriteVikingCard")
+    @Operation(summary = "Перезаписать параметры конкретного викинга", operationId = "updateViking")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Параметры викинга полностью заменены"),
             @ApiResponse(responseCode = "404", description = "Не удалось найти запись для перезаписи")
     })
-    public Viking overwriteViking(@PathVariable int id, @RequestBody Viking viking) {
-        Viking updated = rosterService.overwrite(id, viking);
-        vikingListener.upsert(updated);
+    public Viking updateViking(@PathVariable int id, @RequestBody Viking viking) {
+        Viking updated = vikingService.updateById(id, viking);
+        vikingListener.onVikingAdded(updated);
         return updated;
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Удалить викинга из таблицы", operationId = "eraseVikingFromBoard")
+    @Operation(summary = "Удалить викинга из таблицы", operationId = "deleteViking")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Запись удалена"),
             @ApiResponse(responseCode = "404", description = "Записи с таким id нет")
     })
-    public void eraseViking(@PathVariable int id) {
-        rosterService.erase(id);
-        vikingListener.remove(id);
+    public void deleteViking(@PathVariable int id) {
+        vikingService.deleteById(id);
+        vikingListener.onVikingDeleted(id);
     }
 
     @GetMapping("/test")
-    @Operation(summary = "Проверить, что контроллер отвечает", operationId = "showDemoNames")
-    public List<String> showDemoNames() {
+    @Operation(summary = "Проверить, что контроллер отвечает", operationId = "test")
+    public List<String> test() {
         return List.of("Ragnar", "Bjorn");
     }
 
     @PostMapping("/post")
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Создать случайного викинга", operationId = "createRandomVikingForBoard")
+    @Operation(summary = "Создать случайного викинга", operationId = "createRandomViking")
     public Viking createRandomViking() {
-        Viking created = rosterService.createRandom();
-        vikingListener.upsert(created);
+        Viking created = vikingService.createRandomViking();
+        vikingListener.onVikingAdded(created);
         return created;
     }
 }

@@ -19,7 +19,7 @@ public class VikingRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private final RowMapper<VikingEntity> rowMapper = (rs, rowNum) -> new VikingEntity(
+    private final RowMapper<VikingEntity> vikingRowMapper = (rs, rowNum) -> new VikingEntity(
             rs.getInt("id"),
             rs.getString("name"),
             rs.getInt("age"),
@@ -33,26 +33,26 @@ public class VikingRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<VikingEntity> selectAll() {
+    public List<VikingEntity> findAll() {
         String sql = """
                 select id, name, age, height_cm, hair_color, beard_style, description
                 from vikings
                 order by id
                 """;
-        return jdbcTemplate.query(sql, rowMapper);
+        return jdbcTemplate.query(sql, vikingRowMapper);
     }
 
-    public Optional<VikingEntity> selectOne(int id) {
+    public Optional<VikingEntity> findById(int id) {
         String sql = """
                 select id, name, age, height_cm, hair_color, beard_style, description
                 from vikings
                 where id = ?
                 """;
-        List<VikingEntity> rows = jdbcTemplate.query(sql, rowMapper, id);
-        return rows.stream().findFirst();
+        List<VikingEntity> result = jdbcTemplate.query(sql, vikingRowMapper, id);
+        return result.stream().findFirst();
     }
 
-    public Integer insert(VikingEntity viking) {
+    public Integer save(VikingEntity viking) {
         String sql = """
                 insert into vikings(name, age, height_cm, hair_color, beard_style, description)
                 values (?, ?, ?, ?, ?, ?)
@@ -76,7 +76,7 @@ public class VikingRepository {
         return key.intValue();
     }
 
-    public int rewrite(VikingEntity viking) {
+    public int updateById(VikingEntity viking) {
         String sql = """
                 update vikings
                 set name = ?, age = ?, height_cm = ?, hair_color = ?, beard_style = ?, description = ?
@@ -94,7 +94,7 @@ public class VikingRepository {
         );
     }
 
-    public int deleteOne(int id) {
+    public int deleteById(int id) {
         String sql = "delete from vikings where id = ?";
         return jdbcTemplate.update(sql, id);
     }

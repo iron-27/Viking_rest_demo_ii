@@ -9,10 +9,10 @@ import org.springframework.context.annotation.Configuration;
 public class OpenApiConfig {
 
     @Bean
-    public OpenAPI vikingBoardOpenApi() {
+    public OpenAPI vikingOpenApi() {
         return new OpenAPI().info(new Info()
-                .title("Viking Board API")
+                .title("Viking Demo API")
                 .version("1.0.0")
-                .description("REST API для добавления, удаления и полной перезаписи записей о викингах"));
+                .description("Демонстрационное REST API для списка созданных викингов"));
     }
 }

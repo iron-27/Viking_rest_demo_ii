@@ -4,17 +4,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import ru.mephi.vikingboard.model.Viking;
-import ru.mephi.vikingboard.storage.VikingRosterStorage;
+import ru.mephi.vikingboard.repository.VikingStorage;
 
 import java.util.List;
 
 @Service
-public class VikingRosterService {
+public class VikingService {
 
     private final VikingFactory vikingFactory;
-    private final VikingRosterStorage storage;
+    private final VikingStorage storage;
 
-    public VikingRosterService(VikingFactory vikingFactory, VikingRosterStorage storage) {
+    public VikingService(VikingFactory vikingFactory, VikingStorage storage) {
         this.vikingFactory = vikingFactory;
         this.storage = storage;
     }

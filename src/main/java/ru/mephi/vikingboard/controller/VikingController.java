@@ -1,4 +1,4 @@
-package ru.mephi.vikingboard.api;
+package ru.mephi.vikingboard.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -14,23 +14,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import ru.mephi.vikingboard.desktop.DesktopSync;
 import ru.mephi.vikingboard.model.Viking;
-import ru.mephi.vikingboard.service.VikingRosterService;
+import ru.mephi.vikingboard.service.VikingService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/vikings")
 @Tag(name = "Viking board", description = "Методы для работы с таблицей викингов через REST и Swagger")
-public class VikingBoardController {
+public class VikingController {
 
-    private final VikingRosterService rosterService;
-    private final DesktopSync desktopSync;
+    private final VikingService rosterService;
+    private final VikingListener vikingListener;
 
-    public VikingBoardController(VikingRosterService rosterService, DesktopSync desktopSync) {
+    public VikingController(VikingService rosterService, VikingListener vikingListener) {
         this.rosterService = rosterService;
-        this.desktopSync = desktopSync;
+        this.vikingListener = vikingListener;
     }
 
     @GetMapping
@@ -56,7 +55,7 @@ public class VikingBoardController {
     @ApiResponse(responseCode = "201", description = "Викинг добавлен в таблицу")
     public Viking createExactViking(@RequestBody Viking viking) {
         Viking created = rosterService.createExact(viking);
-        desktopSync.upsert(created);
+        vikingListener.upsert(created);
         return created;
     }
 
@@ -68,7 +67,7 @@ public class VikingBoardController {
     })
     public Viking overwriteViking(@PathVariable int id, @RequestBody Viking viking) {
         Viking updated = rosterService.overwrite(id, viking);
-        desktopSync.upsert(updated);
+        vikingListener.upsert(updated);
         return updated;
     }
 
@@ -81,7 +80,7 @@ public class VikingBoardController {
     })
     public void eraseViking(@PathVariable int id) {
         rosterService.erase(id);
-        desktopSync.remove(id);
+        vikingListener.remove(id);
     }
 
     @GetMapping("/test")
@@ -95,7 +94,7 @@ public class VikingBoardController {
     @Operation(summary = "Создать случайного викинга", operationId = "createRandomVikingForBoard")
     public Viking createRandomViking() {
         Viking created = rosterService.createRandom();
-        desktopSync.upsert(created);
+        vikingListener.upsert(created);
         return created;
     }
 }

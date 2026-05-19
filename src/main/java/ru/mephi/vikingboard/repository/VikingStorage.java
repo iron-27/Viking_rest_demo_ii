@@ -1,4 +1,4 @@
-package ru.mephi.vikingboard.storage;
+package ru.mephi.vikingboard.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,16 +13,16 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
-public class VikingRosterStorage {
+public class VikingStorage {
 
-    private final VikingRowRepository vikingRows;
-    private final EquipmentRowRepository equipmentRows;
-    private final VikingRecordMapper mapper;
+    private final VikingRepository vikingRows;
+    private final EquipmentItemRepository equipmentRows;
+    private final VikingMapper mapper;
 
-    public VikingRosterStorage(
-            VikingRowRepository vikingRows,
-            EquipmentRowRepository equipmentRows,
-            VikingRecordMapper mapper
+    public VikingStorage(
+            VikingRepository vikingRows,
+            EquipmentItemRepository equipmentRows,
+            VikingMapper mapper
     ) {
         this.vikingRows = vikingRows;
         this.equipmentRows = equipmentRows;

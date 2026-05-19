@@ -1,4 +1,4 @@
-package ru.mephi.vikingboard.storage;
+package ru.mephi.vikingboard.repository;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -8,7 +8,7 @@ import ru.mephi.vikingboard.model.EquipmentItemEntity;
 import java.util.List;
 
 @Repository
-public class EquipmentRowRepository {
+public class EquipmentItemRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -19,7 +19,7 @@ public class EquipmentRowRepository {
             rs.getString("quality")
     );
 
-    public EquipmentRowRepository(JdbcTemplate jdbcTemplate) {
+    public EquipmentItemRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

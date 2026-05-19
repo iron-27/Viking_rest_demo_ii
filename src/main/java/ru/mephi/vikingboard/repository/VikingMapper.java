@@ -1,4 +1,4 @@
-package ru.mephi.vikingboard.storage;
+package ru.mephi.vikingboard.repository;
 
 import org.springframework.stereotype.Component;
 import ru.mephi.vikingboard.model.EquipmentItem;
@@ -9,7 +9,7 @@ import ru.mephi.vikingboard.model.VikingEntity;
 import java.util.List;
 
 @Component
-public class VikingRecordMapper {
+public class VikingMapper {
 
     public VikingEntity toRow(Viking viking) {
         return new VikingEntity(

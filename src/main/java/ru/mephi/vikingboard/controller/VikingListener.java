@@ -1,21 +1,22 @@
-package ru.mephi.vikingboard.desktop;
+package ru.mephi.vikingboard.controller;
 
 import org.springframework.stereotype.Component;
+import ru.mephi.vikingboard.gui.VikingDesktopFrame;
 import ru.mephi.vikingboard.model.Viking;
 
 import javax.swing.SwingUtilities;
 
 @Component
-public class DesktopSync {
+public class VikingListener {
 
-    private VikingBoardFrame frame;
+    private VikingDesktopFrame frame;
 
-    public void attach(VikingBoardFrame frame) {
+    public void attach(VikingDesktopFrame frame) {
         this.frame = frame;
     }
 
     public void upsert(Viking viking) {
-        VikingBoardFrame current = frame;
+        VikingDesktopFrame current = frame;
         if (current == null || viking == null) {
             return;
         }
@@ -23,7 +24,7 @@ public class DesktopSync {
     }
 
     public void remove(int id) {
-        VikingBoardFrame current = frame;
+        VikingDesktopFrame current = frame;
         if (current == null) {
             return;
         }
@@ -31,7 +32,7 @@ public class DesktopSync {
     }
 
     public void refresh() {
-        VikingBoardFrame current = frame;
+        VikingDesktopFrame current = frame;
         if (current == null) {
             return;
         }

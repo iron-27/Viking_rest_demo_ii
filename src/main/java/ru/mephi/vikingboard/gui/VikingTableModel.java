@@ -1,4 +1,4 @@
-package ru.mephi.vikingboard.desktop;
+package ru.mephi.vikingboard.gui;
 
 import ru.mephi.vikingboard.model.EquipmentItem;
 import ru.mephi.vikingboard.model.Viking;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class VikingGridModel extends AbstractTableModel {
+public class VikingTableModel extends AbstractTableModel {
 
     private static final String[] COLUMNS = {
             "Id", "Name", "Age", "Height (cm)", "Hair color", "Beard style", "Equipment"

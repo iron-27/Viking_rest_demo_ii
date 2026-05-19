@@ -1,4 +1,4 @@
-package ru.mephi.vikingboard.storage;
+package ru.mephi.vikingboard.repository;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class VikingRowRepository {
+public class VikingRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -29,7 +29,7 @@ public class VikingRowRepository {
             rs.getString("description")
     );
 
-    public VikingRowRepository(JdbcTemplate jdbcTemplate) {
+    public VikingRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

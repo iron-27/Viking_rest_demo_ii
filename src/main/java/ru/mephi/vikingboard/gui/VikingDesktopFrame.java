@@ -1,7 +1,7 @@
-package ru.mephi.vikingboard.desktop;
+package ru.mephi.vikingboard.gui;
 
 import ru.mephi.vikingboard.model.Viking;
-import ru.mephi.vikingboard.service.VikingRosterService;
+import ru.mephi.vikingboard.service.VikingService;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -15,13 +15,13 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 
-public class VikingBoardFrame extends JFrame {
+public class VikingDesktopFrame extends JFrame {
 
-    private final VikingRosterService rosterService;
-    private final VikingGridModel tableModel = new VikingGridModel();
+    private final VikingService rosterService;
+    private final VikingTableModel tableModel = new VikingTableModel();
     private final JLabel status = new JLabel("Ready");
 
-    public VikingBoardFrame(VikingRosterService rosterService) {
+    public VikingDesktopFrame(VikingService rosterService) {
         this.rosterService = rosterService;
 
         setTitle("Viking Board");

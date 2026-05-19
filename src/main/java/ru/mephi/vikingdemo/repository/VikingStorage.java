@@ -1,11 +1,11 @@
-package ru.mephi.vikingboard.repository;
+package ru.mephi.vikingdemo.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.mephi.vikingboard.model.EquipmentItem;
-import ru.mephi.vikingboard.model.EquipmentItemEntity;
-import ru.mephi.vikingboard.model.Viking;
-import ru.mephi.vikingboard.model.VikingEntity;
+import ru.mephi.vikingdemo.model.EquipmentItem;
+import ru.mephi.vikingdemo.model.EquipmentItemEntity;
+import ru.mephi.vikingdemo.model.Viking;
+import ru.mephi.vikingdemo.model.VikingEntity;
 
 import java.util.List;
 import java.util.Map;

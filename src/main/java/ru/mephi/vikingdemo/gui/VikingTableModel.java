@@ -1,7 +1,7 @@
-package ru.mephi.vikingboard.gui;
+package ru.mephi.vikingdemo.gui;
 
-import ru.mephi.vikingboard.model.EquipmentItem;
-import ru.mephi.vikingboard.model.Viking;
+import ru.mephi.vikingdemo.model.EquipmentItem;
+import ru.mephi.vikingdemo.model.Viking;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;

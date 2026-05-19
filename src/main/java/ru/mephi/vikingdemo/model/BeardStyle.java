@@ -1,4 +1,4 @@
-package ru.mephi.vikingboard.model;
+package ru.mephi.vikingdemo.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

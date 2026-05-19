@@ -1,11 +1,11 @@
-package ru.mephi.vikingboard;
+package ru.mephi.vikingdemo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import ru.mephi.vikingboard.controller.VikingListener;
-import ru.mephi.vikingboard.gui.VikingDesktopFrame;
-import ru.mephi.vikingboard.service.VikingService;
+import ru.mephi.vikingdemo.controller.VikingListener;
+import ru.mephi.vikingdemo.gui.VikingDesktopFrame;
+import ru.mephi.vikingdemo.service.VikingService;
 
 import javax.swing.SwingUtilities;
 

@@ -1,11 +1,11 @@
-package ru.mephi.vikingboard.service;
+package ru.mephi.vikingdemo.service;
 
 import net.datafaker.Faker;
 import org.springframework.stereotype.Component;
-import ru.mephi.vikingboard.model.BeardStyle;
-import ru.mephi.vikingboard.model.EquipmentItem;
-import ru.mephi.vikingboard.model.HairColor;
-import ru.mephi.vikingboard.model.Viking;
+import ru.mephi.vikingdemo.model.BeardStyle;
+import ru.mephi.vikingdemo.model.EquipmentItem;
+import ru.mephi.vikingdemo.model.HairColor;
+import ru.mephi.vikingdemo.model.Viking;
 
 import java.util.List;
 import java.util.Locale;

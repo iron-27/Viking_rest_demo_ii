@@ -1,6 +1,6 @@
-package ru.mephi.vikingboard.service;
+package ru.mephi.vikingdemo.service;
 
-import ru.mephi.vikingboard.model.EquipmentItem;
+import ru.mephi.vikingdemo.model.EquipmentItem;
 
 import java.util.List;
 import java.util.Random;

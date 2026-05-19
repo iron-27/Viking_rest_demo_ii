@@ -1,10 +1,10 @@
-package ru.mephi.vikingboard.service;
+package ru.mephi.vikingdemo.service;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import ru.mephi.vikingboard.model.Viking;
-import ru.mephi.vikingboard.repository.VikingStorage;
+import ru.mephi.vikingdemo.model.Viking;
+import ru.mephi.vikingdemo.repository.VikingStorage;
 
 import java.util.List;
 

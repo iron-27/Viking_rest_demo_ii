@@ -1,4 +1,4 @@
-package ru.mephi.vikingboard.model;
+package ru.mephi.vikingdemo.model;
 
 public record VikingEntity(
         Integer id,

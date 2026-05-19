@@ -1,9 +1,9 @@
-package ru.mephi.vikingboard.repository;
+package ru.mephi.vikingdemo.repository;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import ru.mephi.vikingboard.model.EquipmentItemEntity;
+import ru.mephi.vikingdemo.model.EquipmentItemEntity;
 
 import java.util.List;
 

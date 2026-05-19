@@ -1,8 +1,8 @@
-package ru.mephi.vikingboard.controller;
+package ru.mephi.vikingdemo.controller;
 
 import org.springframework.stereotype.Component;
-import ru.mephi.vikingboard.gui.VikingDesktopFrame;
-import ru.mephi.vikingboard.model.Viking;
+import ru.mephi.vikingdemo.gui.VikingDesktopFrame;
+import ru.mephi.vikingdemo.model.Viking;
 
 import javax.swing.SwingUtilities;
 

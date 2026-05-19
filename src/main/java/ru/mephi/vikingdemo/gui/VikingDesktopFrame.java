@@ -1,7 +1,7 @@
-package ru.mephi.vikingboard.gui;
+package ru.mephi.vikingdemo.gui;
 
-import ru.mephi.vikingboard.model.Viking;
-import ru.mephi.vikingboard.service.VikingService;
+import ru.mephi.vikingdemo.model.Viking;
+import ru.mephi.vikingdemo.service.VikingService;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;

@@ -1,4 +1,4 @@
-package ru.mephi.vikingboard.config;
+package ru.mephi.vikingdemo.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

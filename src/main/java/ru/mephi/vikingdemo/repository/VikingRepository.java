@@ -1,13 +1,13 @@
-package ru.mephi.vikingboard.repository;
+package ru.mephi.vikingdemo.repository;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import ru.mephi.vikingboard.model.BeardStyle;
-import ru.mephi.vikingboard.model.HairColor;
-import ru.mephi.vikingboard.model.VikingEntity;
+import ru.mephi.vikingdemo.model.BeardStyle;
+import ru.mephi.vikingdemo.model.HairColor;
+import ru.mephi.vikingdemo.model.VikingEntity;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;

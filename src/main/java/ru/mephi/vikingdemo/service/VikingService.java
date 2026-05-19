@@ -6,6 +6,8 @@ import org.springframework.web.server.ResponseStatusException;
 import ru.mephi.vikingdemo.model.Viking;
 import ru.mephi.vikingdemo.repository.VikingStorage;
 
+import java.util.stream.IntStream;
+
 import java.util.List;
 
 @Service
@@ -49,5 +51,23 @@ public class VikingService {
 
     private ResponseStatusException missingViking(int id) {
         return new ResponseStatusException(HttpStatus.NOT_FOUND, "Викинг с id " + id + " не найден");
+    }
+
+    public List<Viking> createRandomVikings(int count) {
+        return IntStream.range(0, count)
+                .mapToObj(i -> vikingFactory.createRandomViking())
+                .map(vikingStorage::save)
+                .toList();
+    }
+
+    public Viking createRandom() {
+
+        Viking viking = vikingFactory.createRandomViking();
+
+        return vikingStorage.save(viking);
+    }
+
+    public List<Viking> loadAll() {
+        return vikingStorage.findAll();
     }
 }

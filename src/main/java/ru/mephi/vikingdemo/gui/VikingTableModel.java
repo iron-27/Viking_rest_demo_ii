@@ -56,6 +56,7 @@ public class VikingTableModel extends AbstractTableModel {
         return -1;
     }
 
+
     @Override
     public int getRowCount() {
         return data.size();

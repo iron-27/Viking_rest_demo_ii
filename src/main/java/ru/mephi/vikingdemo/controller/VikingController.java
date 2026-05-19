@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ru.mephi.vikingdemo.model.Viking;
+import ru.mephi.vikingdemo.service.VikingLambdaService;
 import ru.mephi.vikingdemo.service.VikingService;
 
 import java.util.List;
@@ -27,8 +28,16 @@ public class VikingController {
     private final VikingService vikingService;
     private final VikingListener vikingListener;
 
-    public VikingController(VikingService vikingService, VikingListener vikingListener) {
+    private final VikingLambdaService lambdaService;
+
+    public VikingController(
+            VikingService vikingService,
+            VikingLambdaService lambdaService,
+            VikingListener vikingListener
+    ) {
+
         this.vikingService = vikingService;
+        this.lambdaService = lambdaService;
         this.vikingListener = vikingListener;
     }
 

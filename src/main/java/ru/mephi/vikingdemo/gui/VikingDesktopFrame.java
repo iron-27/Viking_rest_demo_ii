@@ -1,6 +1,7 @@
 package ru.mephi.vikingdemo.gui;
 
 import ru.mephi.vikingdemo.model.Viking;
+import ru.mephi.vikingdemo.service.VikingLambdaService;
 import ru.mephi.vikingdemo.service.VikingService;
 
 import javax.swing.BorderFactory;
@@ -18,11 +19,17 @@ import java.awt.GridLayout;
 public class VikingDesktopFrame extends JFrame {
 
     private final VikingService vikingService;
+    private final VikingLambdaService lambdaService;
     private final VikingTableModel tableModel = new VikingTableModel();
     private final JLabel status = new JLabel("Ready");
 
-    public VikingDesktopFrame(VikingService vikingService) {
+    public VikingDesktopFrame(
+            VikingService vikingService,
+            VikingLambdaService lambdaService
+    ) {
+
         this.vikingService = vikingService;
+        this.lambdaService = lambdaService;
 
         setTitle("Viking Demo");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,22 +56,47 @@ public class VikingDesktopFrame extends JFrame {
         JButton reloadButton = new JButton("Reload table");
         reloadButton.addActionListener(event -> onReloadTable());
 
+        JButton randomTallButton = new JButton("Tall random");
+        randomTallButton.addActionListener(event -> {
+            VikingLambdaFrame frame = new VikingLambdaFrame();
+            frame.showViking(lambdaService.getRandomTallViking());
+            frame.setVisible(true);
+        });
+
+        JButton legendaryButton = new JButton("Legendary vikings");
+        legendaryButton.addActionListener(event -> {
+            VikingLambdaFrame frame = new VikingLambdaFrame();
+            frame.showVikings(lambdaService.getLegendaryVikings());
+            frame.setVisible(true);
+        });
+
+        JButton redBeardButton = new JButton("Red beard vikings");
+        redBeardButton.addActionListener(event -> {
+            VikingLambdaFrame frame = new VikingLambdaFrame();
+            frame.showVikings(lambdaService.getSortedRedBeardedVikings());
+            frame.setVisible(true);
+        });
+
         actions.add(createRandomButton);
         actions.add(reloadButton);
+        actions.add(randomTallButton);
+        actions.add(legendaryButton);
+        actions.add(redBeardButton);
         actions.add(status);
+
         add(actions, BorderLayout.EAST);
 
         onReloadTable();
     }
 
     private void onCreateViking() {
-        Viking created = vikingService.createRandomViking();
+        Viking created = vikingService.createRandom();
         addNewViking(created);
         status.setText("Added id " + created.id());
     }
 
     public void addNewViking(Viking viking) {
-        tableModel.addViking(viking);
+        onReloadTable();
         status.setText("Shown id " + viking.id());
     }
 
@@ -74,7 +106,7 @@ public class VikingDesktopFrame extends JFrame {
     }
 
     public void onReloadTable() {
-        tableModel.setRows(vikingService.findAll());
+        tableModel.setRows(vikingService.loadAll());
         status.setText("Rows: " + tableModel.getRowCount());
     }
 }

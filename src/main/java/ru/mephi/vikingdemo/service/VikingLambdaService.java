@@ -6,10 +6,9 @@ import ru.mephi.vikingdemo.model.HairColor;
 import ru.mephi.vikingdemo.model.Viking;
 import ru.mephi.vikingdemo.repository.VikingStorage;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 public class VikingLambdaService {
@@ -104,4 +103,7 @@ public class VikingLambdaService {
                 .filter(id -> id % 2 == 0)
                 .toArray();
     }
+
+
+
 }

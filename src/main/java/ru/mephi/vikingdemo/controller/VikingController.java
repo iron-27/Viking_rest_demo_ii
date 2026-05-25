@@ -5,15 +5,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.mephi.vikingdemo.model.BeardStyle;
+import ru.mephi.vikingdemo.model.HairColor;
 import ru.mephi.vikingdemo.model.Viking;
 import ru.mephi.vikingdemo.service.VikingLambdaService;
 import ru.mephi.vikingdemo.service.VikingService;
@@ -98,6 +92,19 @@ public class VikingController {
         return List.of("Ragnar", "Bjorn");
     }
 
+
+    @PostMapping("/generate/{count}")
+    @Operation(summary = "Массовая генерация случайных викингов")
+    @ApiResponse(responseCode = "200", description = "Викинги успешно созданы")
+    public List<Viking> generateVikings(@PathVariable int count) {
+
+        List<Viking> generated = vikingService.createRandomVikings(count);
+
+        generated.forEach(vikingListener::onVikingAdded);
+
+        return generated;
+    }
+
     @PostMapping("/post")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Создать случайного викинга", operationId = "createRandomViking")
@@ -106,4 +113,70 @@ public class VikingController {
         vikingListener.onVikingAdded(created);
         return created;
     }
+
+    @GetMapping("/lambda/older-than/{age}")
+    public long countOlderThan(@PathVariable int age) {
+        return lambdaService.countOlderThan(age);
+    }
+
+    @GetMapping("/lambda/younger-than/{age}")
+    public long countYoungerThan(@PathVariable int age) {
+        return lambdaService.countYoungerThan(age);
+    }
+
+    @GetMapping("/lambda/age-range")
+    public long countInRange(
+            @RequestParam int from,
+            @RequestParam int to
+    ) {
+        return lambdaService.countInAgeRange(from, to);
+    }
+
+    @GetMapping("/lambda/outside-age-range")
+    public long countOutsideRange(
+            @RequestParam int from,
+            @RequestParam int to
+    ) {
+        return lambdaService.countOutsideAgeRange(from, to);
+    }
+
+    @GetMapping("/lambda/beard-hair")
+    public long countByBeardAndHair(
+            @RequestParam BeardStyle beardStyle,
+            @RequestParam HairColor hairColor
+    ) {
+        return lambdaService.countByBeardAndHair(beardStyle, hairColor);
+    }
+
+    @GetMapping("/lambda/axes")
+    public long countWithAxes() {
+        return lambdaService.countWithAxes();
+    }
+
+    @GetMapping("/lambda/random-tall")
+    public Viking randomTallViking() {
+        return lambdaService.getRandomTallViking();
+    }
+
+    @GetMapping("/lambda/legendary")
+    public List<Viking> legendaryVikings() {
+        return lambdaService.getLegendaryVikings();
+    }
+
+    @GetMapping("/lambda/red-bearded")
+    public List<Viking> redBeardedVikings() {
+        return lambdaService.getSortedRedBeardedVikings();
+    }
+
+    @GetMapping("/lambda/max-id")
+    public int maxId() {
+        return lambdaService.findMaxId();
+    }
+
+    @GetMapping("/lambda/even-ids")
+    public int[] evenIds() {
+        return lambdaService.findEvenIds();
+    }
+
+
 }
